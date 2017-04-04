@@ -4,7 +4,18 @@ services:
   server:
     image: redis-graph
     privileged: true
+    restart: unless-stopped
     ports:
       - 6389:6379
     volumes:
       - $PWD/data:/data
+    depends_on:
+      - builder
+
+  builder:
+    build:
+      context: ./docker/gcc-cmake-builder/
+      dockerfile: Dockerfile
+    entrypoint: ./builder.sh
+    volumes:
+      - $PWD:/builder/host

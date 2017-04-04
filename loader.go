@@ -115,7 +115,7 @@ func importRelations(rds *redis.Conn, filename string) {
 
 func main() {
 
-	rds, err := redis.Dial("tcp", ":6379")
+	rds, err := redis.Dial("tcp", ":6389")
 	PanicOnError(err)
 	defer rds.Close()
 
