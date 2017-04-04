@@ -60,10 +60,11 @@ func importProfiles(rds *redis.Conn, filename string) {
 		data = append(data, key)
 		data = append(data, zip_arrays(cols, arr)...)
 
-		// msg, err :=
-		(*rds).Do("HMSET", data...)
-		// _, err := r.Do("SETEX", arr[0], 60, arr)
-		// break
+		msg, err := (*rds).Do("HMSET", data...)
+		if err != nil {
+			fmt.Println("MESSAGE:", msg)
+			PanicOnError(err)
+		}
 		i++
 		if i%100000 == 0 {
 			fmt.Println("Processed so far :", i)
@@ -98,14 +99,12 @@ func importRelations(rds *redis.Conn, filename string) {
 		friend := "person:" + arr[1]
 
 		_, err := (*rds).Do("GRAPH.ADDEDGE", graph, person, "friend", friend)
-		// fmt.Println(msg, err)
 		if err != nil {
 		}
 		break
 		i++
 		if i%100000 == 0 {
 			fmt.Println("Processed so far :", i)
-			break
 		}
 
 	}
@@ -115,7 +114,7 @@ func importRelations(rds *redis.Conn, filename string) {
 
 func main() {
 
-	rds, err := redis.Dial("tcp", ":6379")
+	rds, err := redis.Dial("tcp", ":6389")
 	PanicOnError(err)
 	defer rds.Close()
 

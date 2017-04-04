@@ -1,5 +1,7 @@
 FROM debian:jessie
 
+MAINTAINER Alex Mushket <uzibazuka@gmail.com>
+
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN groupadd -r redis && useradd -r -g redis redis
 
@@ -21,8 +23,8 @@ RUN set -x \
   && gosu nobody true
 
 ENV REDIS_VERSION unstable
-ENV REDIS_DOWNLOAD_URL https://github.com/antirez/redis/archive/unstable.tar.gz
-# ENV REDIS_DOWNLOAD_URL https://github.com/antirez/redis/archive/4.0-rc2.tar.gz
+# ENV REDIS_DOWNLOAD_URL https://github.com/antirez/redis/archive/unstable.tar.gz
+ENV REDIS_DOWNLOAD_URL https://github.com/antirez/redis/archive/4.0-rc2.tar.gz
 
 # for redis-sentinel see: http://redis.io/topics/sentinel
 RUN set -ex \
